@@ -1,0 +1,84 @@
+---
+title: "測試閱讀時間計算功能"
+description: "這是一篇測試文章，用來驗證 Reading Time Calculator 外掛是否正確運作"
+coverImage: "https://via.placeholder.com/800x400"
+publishedAt: "2025-01-13"
+category: "測試"
+tags: ["測試", "閱讀時間", "功能驗證", "中英文混合"]
+---
+
+# 測試閱讀時間計算
+
+這是一篇專門用來測試 Reading Time Calculator 功能的文章。文章包含了各種不同類型的內容，用來驗證計算是否準確。
+
+## 中英文混合內容測試
+
+這段文字包含中文和 English mixed content 來測試我們的 reading time calculation algorithm 是否能正確處理中英文混合的情況。The algorithm should be able to handle both Chinese characters 和英文單詞的計算。
+
+## 程式碼區塊測試
+
+以下是一個 TypeScript 程式碼範例：
+
+```typescript
+interface ReadingTimeData {
+  text: string;
+  minutes: number;
+  time: number;
+  words: number;
+}
+
+function calculateReadingTime(content: string): ReadingTimeData {
+  const wordsPerMinute = 200;
+  const words = countWords(content);
+  const minutes = Math.ceil(words / wordsPerMinute);
+  
+  return {
+    text: `${minutes} 分鐘`,
+    minutes,
+    time: minutes * 60 * 1000,
+    words
+  };
+}
+```
+
+程式碼區塊應該以較慢的速度計算，因為閱讀程式碼需要更多時間理解。
+
+## 圖片測試
+
+![測試圖片](https://via.placeholder.com/400x300)
+
+圖片也會增加閱讀時間，每張圖片大約增加 12 秒。
+
+![另一張測試圖片](https://via.placeholder.com/600x400)
+
+## 列表內容測試
+
+以下是一些重要的功能特色：
+
+- 支援中英文混合內容優化
+- 程式碼區塊權重計算
+- 圖片閱讀時間補正
+- 多語言顯示支援
+- 錯誤處理機制
+
+### 嵌套列表測試
+
+1. 第一層列表項目
+   - 第二層項目 A
+   - 第二層項目 B
+     - 第三層項目 1
+     - 第三層項目 2
+2. 另一個第一層項目
+
+## 表格測試
+
+| 功能 | 描述 | 狀態 |
+|------|------|------|
+| 基礎文字計算 | 中英文混合內容處理 | ✅ 完成 |
+| 程式碼區塊 | 較慢的閱讀速度係數 | ✅ 完成 |
+| 圖片處理 | 每張增加 12 秒 | ✅ 完成 |
+| 多語言支援 | 繁中/英文格式化 | ✅ 完成 |
+
+## 結論
+
+這篇文章包含了各種不同類型的內容，應該能夠全面測試我們的 Reading Time Calculator 功能。如果一切正常，這篇文章應該會自動計算出正確的閱讀時間，並且可以在前端頁面上看到顯示結果。
