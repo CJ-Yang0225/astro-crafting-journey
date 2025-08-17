@@ -1,0 +1,159 @@
+---
+import { siteConfig } from "@/config/site";
+import type { CollectionEntry } from "astro:content";
+
+export interface Props {
+  type: 'website' | 'blog-post' | 'person' | 'organization';
+  post?: CollectionEntry<'blog'>;
+  note?: CollectionEntry<'notes'>;
+  project?: CollectionEntry<'projects'>;
+}
+
+const { type, post, note, project } = Astro.props;
+
+// 基礎網站結構化資料
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": siteConfig.name,
+  "description": siteConfig.description,
+  "url": siteConfig.url,
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": `${siteConfig.url}/search?q={search_term_string}`
+    },
+    "query-input": "required name=search_term_string"
+  }
+};
+
+// 個人/組織結構化資料
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": siteConfig.name,
+  "url": siteConfig.url,
+  "sameAs": [
+    siteConfig.links.github
+  ],
+  "jobTitle": "Full Stack Developer",
+  "worksFor": {
+    "@type": "Organization",
+    "name": siteConfig.name
+  }
+};
+
+// 部落格文章結構化資料
+function generateBlogPostSchema(post: CollectionEntry<'blog'>) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": post.data.title,
+    "description": post.data.description,
+    "image": post.data.coverImage ? new URL(post.data.coverImage, Astro.url).toString() : undefined,
+    "author": {
+      "@type": "Person",
+      "name": siteConfig.name,
+      "url": siteConfig.url
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": siteConfig.name,
+      "url": siteConfig.url
+    },
+    "datePublished": post.data.publishedAt.toISOString(),
+    "dateModified": post.data.updatedAt?.toISOString() || post.data.publishedAt.toISOString(),
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": new URL(`/blog/${post.id}`, Astro.url).toString()
+    },
+    "keywords": post.data.tags.join(", "),
+    "articleSection": post.data.category,
+    "inLanguage": "zh-TW"
+  };
+}
+
+// 學習筆記結構化資料
+function generateNoteSchema(note: CollectionEntry<'notes'>) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": note.data.title,
+    "description": note.data.description || `${note.data.type} note about ${note.data.category}`,
+    "author": {
+      "@type": "Person",
+      "name": siteConfig.name,
+      "url": siteConfig.url
+    },
+    "datePublished": note.data.createdAt.toISOString(),
+    "dateModified": note.data.updatedAt?.toISOString() || note.data.createdAt.toISOString(),
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": new URL(`/notes/${note.id}`, Astro.url).toString()
+    },
+    "keywords": note.data.tags.join(", "),
+    "articleSection": note.data.category,
+    "educationalLevel": note.data.difficulty,
+    "inLanguage": "zh-TW"
+  };
+}
+
+// 專案結構化資料
+function generateProjectSchema(project: CollectionEntry<'projects'>) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    "name": project.data.title,
+    "description": project.data.description,
+    "image": project.data.images.map(img => new URL(img, Astro.url).toString()),
+    "author": {
+      "@type": "Person",
+      "name": siteConfig.name,
+      "url": siteConfig.url
+    },
+    "dateCreated": project.data.startDate.toISOString(),
+    "dateModified": project.data.endDate?.toISOString(),
+    "url": project.data.liveUrl,
+    "codeRepository": project.data.githubUrl,
+    "programmingLanguage": project.data.technologies,
+    "creativeWorkStatus": project.data.status,
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": new URL(`/projects/${project.id}`, Astro.url).toString()
+    }
+  };
+}
+
+// 根據類型生成對應的結構化資料
+let structuredData: any[] = [];
+
+switch (type) {
+  case 'website':
+    structuredData = [websiteSchema, personSchema];
+    break;
+  case 'blog-post':
+    if (post) {
+      structuredData = [websiteSchema, personSchema, generateBlogPostSchema(post)];
+    }
+    break;
+  case 'person':
+    structuredData = [personSchema];
+    break;
+  default:
+    structuredData = [websiteSchema];
+}
+
+// 如果有筆記或專案，也加入對應的結構化資料
+if (note) {
+  structuredData.push(generateNoteSchema(note));
+}
+
+if (project) {
+  structuredData.push(generateProjectSchema(project));
+}
+---
+
+{structuredData.map((schema) => (
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+))}
