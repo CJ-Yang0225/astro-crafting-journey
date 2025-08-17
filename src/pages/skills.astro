@@ -1,0 +1,210 @@
+---
+import OptimizedLayout from "@/layouts/optimized-layout.astro";
+import MainLayout from "@/layouts/main-layout.astro";
+
+const seoMeta = {
+  title: "技能樹與技術堆疊",
+  description: "視覺化展示我的技術技能、開發工具和專業能力，包含前端、後端、DevOps 等各領域的技術掌握程度。",
+  type: "website" as const,
+};
+---
+
+<OptimizedLayout {...seoMeta} structuredDataType="website">
+  <MainLayout title="Skills" description={seoMeta.description}>
+    <main id="main-content" class="container py-10">
+      <!-- 頁面標題 -->
+      <header class="text-center mb-12">
+        <h1 class="font-heading text-4xl md:text-5xl font-bold mb-4">
+          技能樹與技術堆疊
+        </h1>
+        <p class="text-lg text-muted-foreground max-w-2xl mx-auto">
+          視覺化展示我的技術技能和專業能力，持續學習與成長的技術旅程
+        </p>
+      </header>
+
+      <!-- 技能分類 -->
+      <div class="grid gap-8 md:gap-12">
+        <!-- 前端開發 -->
+        <section class="space-y-6">
+          <h2 class="text-2xl font-semibold border-b pb-2">前端開發</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- 技能卡片將在這裡動態生成 -->
+            <div class="p-6 border rounded-lg bg-card">
+              <h3 class="font-semibold mb-2">JavaScript / TypeScript</h3>
+              <div class="w-full bg-muted rounded-full h-2 mb-2">
+                <div class="bg-primary h-2 rounded-full" style="width: 90%"></div>
+              </div>
+              <p class="text-sm text-muted-foreground">專精現代 JS/TS 開發</p>
+            </div>
+            
+            <div class="p-6 border rounded-lg bg-card">
+              <h3 class="font-semibold mb-2">React / Next.js</h3>
+              <div class="w-full bg-muted rounded-full h-2 mb-2">
+                <div class="bg-primary h-2 rounded-full" style="width: 85%"></div>
+              </div>
+              <p class="text-sm text-muted-foreground">熟練 React 生態系統</p>
+            </div>
+            
+            <div class="p-6 border rounded-lg bg-card">
+              <h3 class="font-semibold mb-2">Astro / Vue</h3>
+              <div class="w-full bg-muted rounded-full h-2 mb-2">
+                <div class="bg-primary h-2 rounded-full" style="width: 80%"></div>
+              </div>
+              <p class="text-sm text-muted-foreground">現代靜態網站生成</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 後端開發 -->
+        <section class="space-y-6">
+          <h2 class="text-2xl font-semibold border-b pb-2">後端開發</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="p-6 border rounded-lg bg-card">
+              <h3 class="font-semibold mb-2">Golang</h3>
+              <div class="w-full bg-muted rounded-full h-2 mb-2">
+                <div class="bg-primary h-2 rounded-full" style="width: 75%"></div>
+              </div>
+              <p class="text-sm text-muted-foreground">高效能 API 開發</p>
+            </div>
+            
+            <div class="p-6 border rounded-lg bg-card">
+              <h3 class="font-semibold mb-2">Node.js</h3>
+              <div class="w-full bg-muted rounded-full h-2 mb-2">
+                <div class="bg-primary h-2 rounded-full" style="width: 85%"></div>
+              </div>
+              <p class="text-sm text-muted-foreground">全端 JavaScript 開發</p>
+            </div>
+            
+            <div class="p-6 border rounded-lg bg-card">
+              <h3 class="font-semibold mb-2">MongoDB / PostgreSQL</h3>
+              <div class="w-full bg-muted rounded-full h-2 mb-2">
+                <div class="bg-primary h-2 rounded-full" style="width: 70%"></div>
+              </div>
+              <p class="text-sm text-muted-foreground">資料庫設計與優化</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 工具與 DevOps -->
+        <section class="space-y-6">
+          <h2 class="text-2xl font-semibold border-b pb-2">工具與 DevOps</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="p-6 border rounded-lg bg-card">
+              <h3 class="font-semibold mb-2">Git / GitHub</h3>
+              <div class="w-full bg-muted rounded-full h-2 mb-2">
+                <div class="bg-primary h-2 rounded-full" style="width: 90%"></div>
+              </div>
+              <p class="text-sm text-muted-foreground">版本控制與協作</p>
+            </div>
+            
+            <div class="p-6 border rounded-lg bg-card">
+              <h3 class="font-semibold mb-2">Docker / CI/CD</h3>
+              <div class="w-full bg-muted rounded-full h-2 mb-2">
+                <div class="bg-primary h-2 rounded-full" style="width: 65%"></div>
+              </div>
+              <p class="text-sm text-muted-foreground">容器化與自動部署</p>
+            </div>
+            
+            <div class="p-6 border rounded-lg bg-card">
+              <h3 class="font-semibold mb-2">Vercel / Netlify</h3>
+              <div class="w-full bg-muted rounded-full h-2 mb-2">
+                <div class="bg-primary h-2 rounded-full" style="width: 80%"></div>
+              </div>
+              <p class="text-sm text-muted-foreground">現代化部署平台</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 學習中的技術 -->
+        <section class="space-y-6">
+          <h2 class="text-2xl font-semibold border-b pb-2">學習中的技術</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="p-6 border rounded-lg bg-card border-dashed">
+              <h3 class="font-semibold mb-2">Rust</h3>
+              <div class="w-full bg-muted rounded-full h-2 mb-2">
+                <div class="bg-orange-500 h-2 rounded-full" style="width: 30%"></div>
+              </div>
+              <p class="text-sm text-muted-foreground">系統程式設計語言</p>
+            </div>
+            
+            <div class="p-6 border rounded-lg bg-card border-dashed">
+              <h3 class="font-semibold mb-2">Three.js / WebGL</h3>
+              <div class="w-full bg-muted rounded-full h-2 mb-2">
+                <div class="bg-orange-500 h-2 rounded-full" style="width: 45%"></div>
+              </div>
+              <p class="text-sm text-muted-foreground">3D 網頁圖形開發</p>
+            </div>
+            
+            <div class="p-6 border rounded-lg bg-card border-dashed">
+              <h3 class="font-semibold mb-2">AI/ML Integration</h3>
+              <div class="w-full bg-muted rounded-full h-2 mb-2">
+                <div class="bg-orange-500 h-2 rounded-full" style="width: 40%"></div>
+              </div>
+              <p class="text-sm text-muted-foreground">AI 工具整合應用</p>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- 技能發展時間軸 -->
+      <section class="mt-16">
+        <h2 class="text-2xl font-semibold text-center mb-8">技能發展歷程</h2>
+        <div class="max-w-3xl mx-auto">
+          <div class="relative">
+            <!-- 時間軸線 -->
+            <div class="absolute left-4 top-0 bottom-0 w-0.5 bg-border"></div>
+            
+            <!-- 時間軸項目 -->
+            <div class="space-y-8">
+              <div class="relative flex items-start space-x-4">
+                <div class="flex-shrink-0 w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                  <div class="w-3 h-3 bg-primary-foreground rounded-full"></div>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <h3 class="font-semibold">2024 - AI 協作開發</h3>
+                  <p class="text-muted-foreground">開始探索 AI 輔助開發，學習與 AI 工具協作提升開發效率</p>
+                </div>
+              </div>
+              
+              <div class="relative flex items-start space-x-4">
+                <div class="flex-shrink-0 w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                  <div class="w-3 h-3 bg-primary-foreground rounded-full"></div>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <h3 class="font-semibold">2023 - 全端開發</h3>
+                  <p class="text-muted-foreground">深入學習 Golang 後端開發，建立完整的全端開發能力</p>
+                </div>
+              </div>
+              
+              <div class="relative flex items-start space-x-4">
+                <div class="flex-shrink-0 w-8 h-8 bg-muted rounded-full flex items-center justify-center">
+                  <div class="w-3 h-3 bg-muted-foreground rounded-full"></div>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <h3 class="font-semibold">2022 - 現代前端</h3>
+                  <p class="text-muted-foreground">專精 React 生態系統，學習 TypeScript 和現代開發工具</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </MainLayout>
+</OptimizedLayout>
+
+<style>
+  /* 技能進度條動畫 */
+  .skill-progress {
+    animation: fillProgress 1s ease-out forwards;
+  }
+  
+  @keyframes fillProgress {
+    from { width: 0%; }
+  }
+  
+  /* 學習中的技術樣式 */
+  .border-dashed {
+    border-style: dashed;
+  }
+</style>
