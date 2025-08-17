@@ -24,14 +24,39 @@
 │   │   ├── layout/          # 布局元件
 │   │   └── sections/        # 頁面區塊元件
 │   ├── content/             # 內容集合
-│   │   └── blog/           # 部落格文章
+│   │   ├── blog/           # 技術文章與學習筆記
+│   │   ├── notes/          # 快速筆記與代碼片段
+│   │   └── projects/       # 作品集項目資料
 │   ├── layouts/             # 頁面布局模板
 │   ├── pages/               # 路由頁面
+│   │   ├── blog/           # 部落格相關頁面
+│   │   ├── skills.astro    # 技能視覺化頁面
+│   │   ├── contact.astro   # 聯絡表單頁面
+│   │   └── projects/       # 作品集頁面
 │   ├── lib/                 # 工具函數
 │   └── config/              # 網站配置
 ├── .claude/                 # Claude Code 配置與 hooks
 └── CLAUDE.md               # 開發指南
 ```
+
+## 🗺️ 網站架構
+
+### 主要路由結構
+```
+/              # 首頁 - 個人作品集概覽
+├── /blog      # 技術部落格 - 統一內容入口
+│   ├── /category/notes      # 學習筆記分類
+│   ├── /category/articles   # 技術文章分類
+│   └── /tags/{tag}         # 技術標籤頁面
+├── /projects  # 作品集 - 個人專案與技術實驗
+├── /skills    # 技能視覺化 - 互動式技術堆疊展示
+├── /about     # 關於我 - 個人簡介與開發歷程
+└── /contact   # 專業聯絡 - 合作諮詢表單
+```
+
+### 導航架構設計
+- **內容導航**: Blog（文章筆記） + Projects（作品展示）
+- **個人檔案**: Skills（技能樹） + About（關於我） + Contact（聯絡方式）
 
 ## 🧞 開發指令
 
@@ -69,22 +94,39 @@
 - **ESLint** - 程式碼規範檢查
 - **Prettier** - 程式碼格式化
 
-## 🎯 未來規劃
+## 🎯 開發進度
 
-- [ ] **作品展示頁面** - 新增 projects 或 examples 頁面
-- [ ] **3D 效果整合** - Three.js / react-three-fiber 展示
-- [ ] **互動式範例** - Code Sandbox 嵌入
-- [ ] **後端 API 整合** - Golang 開發的互動功能
-- [ ] **內容管理優化** - 更豐富的文章分類和標籤
+### ✅ 已完成項目
+- **模板清理** - 移除 astro-nomy 遺留檔案 (docs, guides, releases, pricing 等)
+- **架構重構** - 更新導航結構為內容導航 + 個人檔案導航
+- **Content Collections** - 建立 blog, notes, projects 內容集合
+- **智能化 Hooks** - 改善自動追蹤系統，提供有意義的活動描述
+
+### 🚧 進行中項目
+- [ ] **Skills 視覺化頁面** - State of JavaScript 風格的技能展示
+- [ ] **Contact 表單系統** - React Hook Form + Golang 後端 + Resend 服務
+- [ ] **Blog 分類重構** - 統一內容入口，支援 category 和 tags 路由
+- [ ] **Projects 頁面整合** - 作品集展示，支援 experimental/showcase/learning 標籤
+
+### 📋 未來規劃
+- [ ] **3D 效果整合** - Three.js / react-three-fiber 展示 (Skills 頁面)
+- [ ] **視覺化工具** - Visx + Observable Plot 實作互動圖表
+- [ ] **互動式範例** - Code Sandbox 嵌入與展示
+- [ ] **後端 API 整合** - Golang 開發的互動功能 (likes, comments)
+- [ ] **About 頁面優化** - 融入開發時間軸與個人故事
 
 ## 🔄 Development Activity
 
-*Recent code changes tracked automatically*
+*AI 協作開發活動自動追蹤，記錄專案架構與功能演進*
 
-- **2025-08-11 01:21:33**: Code modifications detected
-- **2025-08-11 01:15:08**: Code modifications detected
-- **2025-08-11 01:03:40**: Code modifications detected
-- **2025-08-10 03:57:35**: Code modifications detected
-- **2025-08-10 03:57:27**: Code modifications detected
-- **2025-08-10 03:57:16**: Code modifications detected
+- **2025-08-18 00:39:12**: 更新頁面架構
+- **2025-08-17 23:50:10**: 更新頁面架構
+- **2025-08-17 23:49:47**: 更新頁面架構
+- **2025-08-17 23:49:24**: 更新頁面架構
+- **2025-08-17 23:48:57**: 更新頁面架構
+- **2025-08-17 23:38:03**: 更新程式邏輯
+- **2025-08-17 23:37:27**: 程式碼結構優化
+- **2025-08-17 23:37:04**: 更新 Astro 元件
+- **2025-08-17 20:50:55**: 優化工具函數
+- **2025-08-17 20:50:07**: 更新頁面架構
 
