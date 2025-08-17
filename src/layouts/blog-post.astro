@@ -1,69 +1,141 @@
 ---
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
-import { cn, formatDate } from "@/lib/utils";
+import { cn } from "@/lib/utils";
+import { formatDateTime, formatSmartDate } from "@/lib/content-utils";
+import { generatePostMeta } from "@/lib/seo";
 import { Icon } from "astro-icon/components";
 import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
+import OptimizedLayout from "./optimized-layout.astro";
 import MainLayout from "./main-layout.astro";
 
 type Props = CollectionEntry<"blog">;
 
-const slug = Astro.props.slug;
-const { title, description, pubDate, updatedDate, cover, category } =
-  Astro.props.data;
+const post = Astro.props;
+const slug = post.id;
+const { title, description, publishedAt, updatedAt, coverImage, category, tags } = post.data;
+
+// 生成 SEO meta 資料
+const seoMeta = generatePostMeta(post);
 ---
 
-<MainLayout title={title} description={description}>
-  <div class="relative container max-w-screen-md py-10">
-    <button
-      onclick="history.back()"
-      class={cn(
-        buttonVariants({ variant: "ghost" }),
-        "absolute left-[-200px] top-10 hidden xl:inline-flex text-muted-foreground"
-      )}
-      transition:animate="slide"
-    >
-      <Icon name="lucide:chevron-left" class="mr-2 size-4" />
-      {" "}Back
-    </button>
-
-    <article class="prose dark:prose-invert max-w-none">
-      <a
-        href={`/blog/category/${category}`}
-        transition:name={`badge-cat-${slug}`}
-      >
-        <Badge radius="md" className="capitalize">
-          {category}
-        </Badge>
-      </a>
-      <Image
-        class="rounded-xl overflow-hidden my-6"
-        width={720}
-        height={360}
-        src={cover}
-        alt={title}
-        transition:name={`img-${slug}`}
-      />
-      <div class="flex items-center justify-between">
-        <span
-          class="font-medium text-muted-foreground"
-          transition:name={`date-${slug}`}
+<OptimizedLayout 
+  {...seoMeta}
+  structuredDataType="blog-post"
+  post={post}
+>
+  <!-- 主要導航 -->
+  <MainLayout title={title} description={description}>
+    <main id="main-content" class="relative container max-w-screen-md py-10">
+      <!-- 返回按鈕 -->
+      <nav aria-label="文章導航">
+        <button
+          onclick="history.back()"
+          class={cn(
+            buttonVariants({ variant: "ghost" }),
+            "absolute left-[-200px] top-10 hidden xl:inline-flex text-muted-foreground"
+          )}
+          transition:animate="slide"
+          aria-label="返回上一頁"
         >
-          {formatDate(pubDate)}
-          {
-            updatedDate && (
-              <span>- Last updated on {formatDate(updatedDate)}</span>
-            )
-          }
-        </span>
-      </div>
-      <h1 class="font-heading text-4xl my-4" transition:name={`title-${slug}`}>
-        {title}
-      </h1>
-      <p>{description}</p>
-      <hr class="my-6" />
-      <slot />
-    </article>
-  </div>
-</MainLayout>
+          <Icon name="lucide:chevron-left" class="mr-2 size-4" />
+          返回
+        </button>
+      </nav>
+
+      <!-- 文章內容 -->
+      <article class="prose dark:prose-invert max-w-none" itemscope itemtype="https://schema.org/BlogPosting">
+        <!-- 文章 meta 資訊 -->
+        <header>
+          <!-- 分類標籤 -->
+          <nav aria-label="文章分類">
+            <a
+              href={`/blog/category/${category}`}
+              transition:name={`badge-cat-${slug}`}
+              aria-label={`瀏覽 ${category} 分類的文章`}
+            >
+              <Badge radius="md" className="capitalize">
+                {category}
+              </Badge>
+            </a>
+          </nav>
+
+          <!-- 特色圖片 -->
+          {coverImage && (
+            <figure class="my-6">
+              <Image
+                class="rounded-xl overflow-hidden"
+                width={720}
+                height={360}
+                src={coverImage}
+                alt={title}
+                transition:name={`img-${slug}`}
+                itemprop="image"
+                loading="eager"
+              />
+            </figure>
+          )}
+
+          <!-- 發布日期 -->
+          <div class="flex items-center justify-between mb-4">
+            <time
+              class="font-medium text-muted-foreground"
+              datetime={publishedAt.toISOString()}
+              transition:name={`date-${slug}`}
+              itemprop="datePublished"
+            >
+              {formatDateTime(publishedAt)}
+              {updatedAt && (
+                <time itemprop="dateModified" datetime={updatedAt.toISOString()}>
+                  - 最後更新於 {formatSmartDate(updatedAt)}
+                </time>
+              )}
+            </time>
+          </div>
+
+          <!-- 文章標題 -->
+          <h1 
+            class="font-heading text-4xl my-4" 
+            transition:name={`title-${slug}`}
+            itemprop="headline"
+          >
+            {title}
+          </h1>
+
+          <!-- 文章描述 -->
+          <p class="text-lg text-muted-foreground" itemprop="description">
+            {description}
+          </p>
+
+          <!-- 標籤 -->
+          {tags && tags.length > 0 && (
+            <nav aria-label="文章標籤" class="flex flex-wrap gap-2 mt-4">
+              {tags.map(tag => (
+                <a 
+                  href={`/blog/tag/${tag}`}
+                  class="text-sm bg-muted px-2 py-1 rounded-md hover:bg-muted/80 transition-colors"
+                  aria-label={`瀏覽標籤為 ${tag} 的文章`}
+                >
+                  #{tag}
+                </a>
+              ))}
+            </nav>
+          )}
+
+          <hr class="my-6" />
+        </header>
+
+        <!-- 文章內容 -->
+        <div itemprop="articleBody">
+          <slot />
+        </div>
+
+        <!-- 隱藏的結構化資料 -->
+        <meta itemprop="author" content="Crafting Journey" />
+        <meta itemprop="publisher" content="Crafting Journey" />
+        <meta itemprop="inLanguage" content="zh-TW" />
+      </article>
+    </main>
+  </MainLayout>
+</OptimizedLayout>

@@ -18,7 +18,10 @@ export function DashboardTableOfContents({ toc }: TocProps) {
   const activeHeading = useActiveItem(itemIds);
 
   if (!toc?.items) {
-    return null;
+    return <div className="space-y-2">
+      <p className="font-medium">On This Page</p>
+      <p className="text-sm text-muted-foreground">No headings found</p>
+    </div>;
   }
 
   return (
@@ -33,6 +36,11 @@ function useActiveItem(itemIds: (string | undefined)[]) {
   const [activeId, setActiveId] = React.useState<string>("");
 
   React.useEffect(() => {
+    // 檢查是否在瀏覽器環境
+    if (typeof window === 'undefined' || typeof document === 'undefined') {
+      return;
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
