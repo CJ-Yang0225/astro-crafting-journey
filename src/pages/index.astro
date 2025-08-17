@@ -4,8 +4,8 @@ import PageHeader from "@/components/page-header.astro";
 import { navMenuConfig } from "@/config/nav-menu";
 import MainLayout from "@/layouts/main-layout.astro";
 
-const myWorks = navMenuConfig.myWorksNav[0].items;
-const pages = navMenuConfig.pagesNav[0].items;
+const content = navMenuConfig.contentNav[0].items;
+const profile = navMenuConfig.profileNav[0].items;
 ---
 
 <MainLayout title="">
@@ -16,8 +16,8 @@ const pages = navMenuConfig.pagesNav[0].items;
         text="編譯邏輯與程式碼的 commit，封存從靈感到部署的記憶，開發旅途中各式札記，刻劃著我持續淬鍊的工匠之心。"
       />
 
-      <ExampleGrid title="Pages" items={pages} />
-      <ExampleGrid title="My Works" items={myWorks} />
+      <ExampleGrid title="內容" items={content} />
+      <ExampleGrid title="關於我" items={profile} />
     </section>
   </div>
 </MainLayout>

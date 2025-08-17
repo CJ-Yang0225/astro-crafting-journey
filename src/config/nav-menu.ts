@@ -1,71 +1,51 @@
 import type { NavMenuConfig } from "@/types";
 
 export const navMenuConfig: NavMenuConfig = {
-  pagesNav: [
+  contentNav: [
     {
-      title: "Pages",
+      title: "內容",
       items: [
         {
-          title: "Landing",
-          href: "/landing",
-          description: "A landing page template with differents sections.",
-          image: "/images/examples/landing.jpg",
+          title: "Blog",
+          href: "/blog",
+          description: "技術文章、學習筆記與開發心得分享。",
+          image: "/images/examples/changelog.jpg", // TODO: 替換為個人化的 blog 預覽圖
         },
         {
-          title: "Notes",
-          href: "/notes",
-          description: "開發旅途中各式札記，刻劃著我持續淬鍊的工匠之心。",
-          image: "/images/examples/changelog.jpg",
-        },
-        {
-          title: "Changelog",
-          href: "/releases",
-          description: "A reproduction of Starlog template with Tailwind CSS.",
-          image: "/images/examples/changelog.jpg",
-        },
-        {
-          title: "About",
-          href: "/about",
-          description: "A simple page with a masonry gallery and little text.",
-          image: "/images/examples/about.jpg",
+          title: "Projects",
+          href: "/projects",
+          description: "個人作品集、技術實驗與程式碼展示。",
+          image: "/images/examples/static-blog.jpg", // TODO: 替換為 projects 預覽圖
         },
       ],
     },
   ],
-  myWorksNav: [
+  profileNav: [
     {
-      title: "My Works",
+      title: "關於我",
       items: [
         {
-          title: "Static Blog",
-          href: "/blog",
-          description: "A Markdown/MDX blog built using Content Collections.",
-          image: "/images/examples/static-blog.jpg",
+          title: "Skills",
+          href: "/skills",
+          description: "技能樹與技術堆疊視覺化展示。",
+          image: "/images/examples/skills.jpg", // TODO: 創建 skills 預覽圖
         },
         {
-          title: "Docs",
-          href: "/docs/getting-started",
-          description:
-            "A Markdown/MDX docs site built using Content Collections.",
-          image: "/images/examples/documentation.jpg",
+          title: "About",
+          href: "/about",
+          description: "個人經歷、開發歷程與專業背景。",
+          image: "/images/examples/about.jpg",
         },
         {
-          title: "Anime List",
-          href: "/animes",
-          description:
-            "Fetch anime content from an graphql endpoint. Tabs component.",
-          image: "/images/examples/animes.jpg",
-          launched: true,
+          title: "Contact",
+          href: "/contact",
+          description: "專業合作諮詢與技術交流聯絡。",
+          image: "/images/examples/contact.jpg", // TODO: 創建 contact 預覽圖
         },
       ],
     },
   ],
   links: [
-    // {
-    //   title: "Example",
-    //   href: "/example",
-    //   description: "Example description",
-    //   image: "/images/examples/image.jpg",
-    // },
+    // 預留給外部連結，如 GitHub, LinkedIn 等
   ],
 };

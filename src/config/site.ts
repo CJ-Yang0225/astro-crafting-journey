@@ -4,8 +4,8 @@ export const siteConfig: SiteConfig = {
   name: "Crafting Journey",
   description:
     "An modern example app built using Astro v4 & shadcn/ui. Inspired by shadcn/taxonomy.",
-  url: "https://astro-nomy.vercel.app",
-  ogImage: "https://astro-nomy.vercel.app/og.jpg",
+  url: "https://crafting-journey.vercel.app",
+  ogImage: "https://crafting-journey.vercel.app/og.jpg",
   links: {
     github: "https://github.com/CJ-Yang0225/astro-crafting-journey",
   },

@@ -15,8 +15,8 @@ import { navMenuConfig } from "@/config/nav-menu";
 import type { MenuItem } from "@/types";
 
 const links = navMenuConfig.links;
-const pages = navMenuConfig.pagesNav[0];
-const myWorks = navMenuConfig.myWorksNav[0];
+const content = navMenuConfig.contentNav[0];
+const profile = navMenuConfig.profileNav[0];
 
 export function MainNavigationMenu() {
   return (
@@ -42,30 +42,30 @@ export function MainNavigationMenu() {
                 </a>
               </li>
 
-              {pages.items?.map((page) => (
-                <ListItem key={page.title} {...page} />
+              {content.items?.map((item) => (
+                <ListItem key={item.title} {...item} />
               ))}
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem> */}
 
         <NavigationMenuItem>
-          <NavigationMenuTrigger>{pages.title}</NavigationMenuTrigger>
+          <NavigationMenuTrigger>{content.title}</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-              {pages.items?.map((page) => (
-                <ListItem key={page.title} {...page} />
+              {content.items?.map((item) => (
+                <ListItem key={item.title} {...item} />
               ))}
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
 
         <NavigationMenuItem>
-          <NavigationMenuTrigger>{myWorks.title}</NavigationMenuTrigger>
+          <NavigationMenuTrigger>{profile.title}</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-              {myWorks.items?.map((example) => (
-                <ListItem key={example.title} {...example} />
+              {profile.items?.map((item) => (
+                <ListItem key={item.title} {...item} />
               ))}
             </ul>
           </NavigationMenuContent>
