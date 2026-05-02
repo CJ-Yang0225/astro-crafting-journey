@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e ' *)",
+      "Bash(npm info *)",
+      "WebSearch",
+      "Bash(git -C /Users/cj.yang/Developer/personal/front-end/Astro/astro-crafting-journey log --oneline -3)"
+    ]
+  }
+}
