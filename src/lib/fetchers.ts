@@ -11,7 +11,7 @@ export async function getCategories() {
 
 export async function getPosts() {
   const posts = (await getCollection("blog")).sort(
-    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+    (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf()
   );
 
   return posts;
@@ -19,16 +19,11 @@ export async function getPosts() {
 
 export async function getPostsByCategory(category: string) {
   const posts = (await getCollection("blog"))
-    .filter((post) => post.data.category.includes(category))
-    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+    .filter((post) => post.data.category === category)
+    .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
 
   return posts;
 }
 
-export async function getGuides() {
-  const guides = (await getCollection("guides"))
-    .filter((guide) => guide.data.published)
-    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-
-  return guides;
-}
+// Note: Guides collection has been removed in v5 migration
+// If needed, this function can be updated to use the notes collection instead

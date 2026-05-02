@@ -1,21 +1,39 @@
 ---
 import { siteConfig } from "@/config/site";
+import { generatePageTitle, generateCanonicalUrl } from "@/lib/seo";
 import "@/styles/globals.css";
-import { ViewTransitions } from "astro:transitions";
+import { ClientRouter } from "astro:transitions";
 
-interface Props {
+export interface Props {
   title: string;
   description?: string;
   image?: string;
+  type?: 'website' | 'article';
+  publishedTime?: string;
+  modifiedTime?: string;
+  tags?: string[];
+  author?: string;
+  canonicalUrl?: string;
 }
-
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
 const {
   title,
   description = siteConfig.description,
   image = "/og.jpg",
+  type = "website",
+  publishedTime,
+  modifiedTime,
+  tags = [],
+  author = siteConfig.name,
+  canonicalUrl,
 } = Astro.props;
+
+const pageTitle = generatePageTitle(title);
+const canonical = canonicalUrl || generateCanonicalUrl(Astro.url.pathname, Astro.site!);
+const imageUrl = new URL(image, Astro.url).toString();
+
+// 生成關鍵字
+const keywords = tags.length > 0 ? tags.join(', ') : undefined;
 ---
 
 <!-- Global Metadata -->
@@ -24,7 +42,7 @@ const {
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <meta name="generator" content={Astro.generator} />
 
-<!-- Font preloads -->
+<!-- Font preloads with font-display: swap -->
 <link
   rel="preload"
   href="/fonts/calsans-semibold.woff2"
@@ -32,28 +50,62 @@ const {
   type="font/woff2"
   crossorigin
 />
+<link
+  rel="preload"
+  href="/fonts/inter.woff2"
+  as="font"
+  type="font/woff2"
+  crossorigin
+/>
 
 <!-- Canonical URL -->
-<link rel="canonical" href={canonicalURL} />
+<link rel="canonical" href={canonical} />
 
 <!-- Primary Meta Tags -->
-<title>{title ? `${title} | Astronomy` : "Astronomy"}</title>
-<meta name="title" content={title ? `${title} | Astronomy` : "Astronomy"} />
+<title>{pageTitle}</title>
+<meta name="title" content={pageTitle} />
 <meta name="description" content={description} />
+{keywords && <meta name="keywords" content={keywords} />}
+<meta name="author" content={author} />
+<meta name="robots" content="index, follow" />
+
+<!-- Language -->
+<meta name="language" content="zh-TW" />
 
 <!-- Open Graph / Facebook -->
-<meta property="og:type" content="website" />
-<meta property="og:url" content={Astro.url} />
-<meta property="og:title" content={title} />
+<meta property="og:type" content={type} />
+<meta property="og:url" content={canonical} />
+<meta property="og:title" content={pageTitle} />
 <meta property="og:description" content={description} />
-<meta property="og:image" content={new URL(image, Astro.url)} />
+<meta property="og:image" content={imageUrl} />
+<meta property="og:image:alt" content={title} />
+<meta property="og:site_name" content={siteConfig.name} />
+<meta property="og:locale" content="zh_TW" />
+
+{type === 'article' && (
+  <>
+    {publishedTime && <meta property="article:published_time" content={publishedTime} />}
+    {modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
+    <meta property="article:author" content={author} />
+    {tags.map(tag => <meta property="article:tag" content={tag} />)}
+  </>
+)}
 
 <!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content={Astro.url} />
-<meta property="twitter:title" content={title} />
-<meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={new URL(image, Astro.url)} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={canonical} />
+<meta name="twitter:title" content={pageTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageUrl} />
+<meta name="twitter:image:alt" content={title} />
+
+<!-- Additional SEO Meta Tags -->
+<meta name="theme-color" content="#000000" />
+<meta name="msapplication-TileColor" content="#000000" />
+
+<!-- Preconnect to external domains -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
 <!-- Dark mode with prevent flickering flash between navigations -->
 <script is:inline>
@@ -83,4 +135,4 @@ const {
   document.addEventListener("astro:after-swap", setDarkMode);
 </script>
 
-<ViewTransitions />
+<ClientRouter />

@@ -1,9 +1,9 @@
 ---
-import BaseHead from "@/components/layout/base-head.astro";
-import TailwindIndicator from "@/components/tailwind-indicator.astro";
+import BaseHead from '@/components/layout/base-head.astro';
+import TailwindIndicator from '@/components/tailwind-indicator.astro';
 // NOTE: work with { Toaster } from "@/components/ui/sonner" but need to update dark theme
-import { Toaster } from "sonner";
-import { cn } from "@/lib/utils";
+import { Toaster } from 'sonner';
+import { cn } from '@/lib/utils';
 
 type Props = {
   title: string;
@@ -12,8 +12,6 @@ type Props = {
 };
 
 const { title, description, bodyClass } = Astro.props;
-
-console.log('Astro.props:', Astro.props)
 ---
 
 <!doctype html>
@@ -21,7 +19,7 @@ console.log('Astro.props:', Astro.props)
   <head>
     <BaseHead title={title} description={description} />
   </head>
-  <body class={cn("flex flex-col min-h-screen", bodyClass)}>
+  <body class={cn('flex flex-col min-h-screen', bodyClass)}>
     <slot />
     <TailwindIndicator />
     <Toaster richColors client:only="react" />
