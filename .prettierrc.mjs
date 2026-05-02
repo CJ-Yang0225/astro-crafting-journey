@@ -5,6 +5,7 @@ export default {
   tabWidth: 2,
   trailingComma: 'es5',
   printWidth: 80,
+  tailwindStylesheet: './src/styles/globals.css',
   plugins: [
     'prettier-plugin-astro',
     'prettier-plugin-tailwindcss', // 必須放在最後
