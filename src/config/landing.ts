@@ -1,5 +1,55 @@
 import type { InfoLdg } from "@/types";
 
+export type SkillItem = {
+  name: string;
+  icon: string;
+};
+
+export type SkillCategory = {
+  category: string;
+  label: string;
+  skills: SkillItem[];
+};
+
+export const skillGroups: SkillCategory[] = [
+  {
+    category: "frontend",
+    label: "Frontend",
+    skills: [
+      { name: "React", icon: "mdi:react" },
+      { name: "Vue", icon: "mdi:vuejs" },
+      { name: "Astro", icon: "ri:moon-fill" },
+      { name: "TypeScript", icon: "mdi:language-typescript" },
+      { name: "Tailwind CSS", icon: "mdi:tailwind" },
+      { name: "Motion", icon: "mdi:animation-play" },
+      { name: "GSAP", icon: "mdi:play-circle-outline" },
+      { name: "Three.js", icon: "mdi:cube-outline" },
+    ],
+  },
+  {
+    category: "backend",
+    label: "Backend / Edge",
+    skills: [
+      { name: "Node.js", icon: "mdi:nodejs" },
+      { name: "Hono", icon: "mdi:fire" },
+      { name: "Cloudflare Workers", icon: "mdi:cloud-outline" },
+      { name: "PostgreSQL", icon: "mdi:database" },
+      { name: "Zod", icon: "mdi:shield-check-outline" },
+    ],
+  },
+  {
+    category: "tools",
+    label: "Tools & Workflow",
+    skills: [
+      { name: "Vite", icon: "mdi:lightning-bolt" },
+      { name: "pnpm", icon: "mdi:package-variant" },
+      { name: "Git", icon: "mdi:git" },
+      { name: "Vitest", icon: "mdi:test-tube" },
+      { name: "ESLint", icon: "mdi:code-braces" },
+    ],
+  },
+];
+
 export const infos: InfoLdg[] = [
   {
     title: "Empower your projects",

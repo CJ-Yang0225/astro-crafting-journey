@@ -1,23 +1,55 @@
 ---
-import ExampleGrid from "@/components/example-grid.astro";
-import PageHeader from "@/components/page-header.astro";
-import { navMenuConfig } from "@/config/nav-menu";
+import { getCollection } from "astro:content";
 import MainLayout from "@/layouts/main-layout.astro";
+import HeroSection from "@/components/sections/hero-section";
+import FeaturedProjects from "@/components/sections/featured-projects.astro";
+import BlogPreview from "@/components/sections/blog-preview";
+import SkillsHighlight from "@/components/sections/skills-highlight";
+import { skillGroups } from "@/config/landing";
+import type { PostPreview } from "@/components/sections/blog-preview";
+import { format } from "date-fns";
 
-const content = navMenuConfig.contentNav[0].items;
-const profile = navMenuConfig.profileNav[0].items;
+// Merge blog + notes, unified sort by date, take newest 4
+const [blogEntries, notesEntries] = await Promise.all([
+  getCollection("blog"),
+  getCollection("notes"),
+]);
+
+const blogPosts: PostPreview[] = blogEntries.map((entry) => ({
+  slug: entry.id,
+  title: entry.data.title,
+  date: format(entry.data.publishedAt, "yyyy-MM-dd"),
+  badge: entry.data.category,
+  badgeVariant: "category" as const,
+  description: entry.data.description,
+  href: `/blog/${entry.id}`,
+}));
+
+const notesPosts: PostPreview[] = notesEntries.map((entry) => ({
+  slug: entry.id,
+  title: entry.data.title,
+  date: format(entry.data.createdAt, "yyyy-MM-dd"),
+  badge: entry.data.type,
+  badgeVariant: "type" as const,
+  description: entry.data.description ?? "",
+  href: `/blog/${entry.id}`,
+}));
+
+const recentPosts = [...blogPosts, ...notesPosts]
+  .sort((a, b) => b.date.localeCompare(a.date))
+  .slice(0, 4);
 ---
 
-<MainLayout title="">
-  <div class="bg-background-200">
-    <section class="container py-12">
-      <PageHeader
-        heading="Crafting Journey"
-        text="編譯邏輯與程式碼的 commit，封存從靈感到部署的記憶，開發旅途中各式札記，刻劃著我持續淬鍊的工匠之心。"
-      />
+<MainLayout title="Crafting Journey">
+  <!-- Hero: above-fold interactive island, client:load -->
+  <HeroSection client:load />
 
-      <ExampleGrid title="內容" items={content} />
-      <ExampleGrid title="關於我" items={profile} />
-    </section>
-  </div>
+  <!-- Featured Projects: zero client JS, pure Astro -->
+  <FeaturedProjects />
+
+  <!-- Blog Preview: Motion v12 stagger, deferred until visible -->
+  <BlogPreview client:visible posts={recentPosts} />
+
+  <!-- Skills Highlight: Motion v12 stagger, deferred until visible -->
+  <SkillsHighlight client:visible skillGroups={skillGroups} />
 </MainLayout>
