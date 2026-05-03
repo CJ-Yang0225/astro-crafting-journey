@@ -1,0 +1,61 @@
+---
+import { getCollection } from "astro:content";
+import ProjectCard from "@/components/ui/project-card.astro";
+
+const allProjects = await getCollection("projects");
+
+if (allProjects.length === 0) {
+  return;
+}
+
+const projects = allProjects
+  .sort(
+    (a, b) =>
+      new Date(b.data.startDate).getTime() -
+      new Date(a.data.startDate).getTime()
+  )
+  .slice(0, 3);
+---
+
+<section class="py-24 bg-background-200">
+  <div class="container">
+    <div class="mb-12 flex items-end justify-between gap-4">
+      <div>
+        <p class="mb-2 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
+          Selected Work
+        </p>
+        <h2 class="font-heading text-3xl leading-tight tracking-tight text-foreground sm:text-4xl">
+          Featured Projects
+        </h2>
+      </div>
+      <a
+        href="/projects"
+        class="hidden shrink-0 font-mono text-xs uppercase tracking-widest text-muted-foreground transition-colors hover:text-foreground sm:inline-flex"
+      >
+        View all →
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {projects.map((project) => (
+        <ProjectCard
+          slug={project.id}
+          title={project.data.title}
+          description={project.data.description}
+          technologies={project.data.technologies}
+          status={project.data.status}
+          images={project.data.images}
+        />
+      ))}
+    </div>
+
+    <div class="mt-8 text-center sm:hidden">
+      <a
+        href="/projects"
+        class="font-mono text-xs uppercase tracking-widest text-muted-foreground transition-colors hover:text-foreground"
+      >
+        View all projects →
+      </a>
+    </div>
+  </div>
+</section>
