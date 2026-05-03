@@ -1,111 +1,83 @@
 #!/bin/bash
 
-# Hook script to intelligently update README.md with meaningful development activity
-# This runs after Edit, Write, or MultiEdit tool usage
+# Runs once per Claude session (Stop hook) to append one activity entry to README.md.
+# Uses `git status` to determine what actually changed this session.
 
-# Exit if README.md is the file being modified to prevent infinite loops
-if echo "$CLAUDE_LAST_TOOL_USE" | grep -q "README.md"; then
-    exit 0
-fi
+README_FILE="$CLAUDE_PROJECT_DIR/README.md"
 
-# Function to generate meaningful activity description
-generate_activity_description() {
-    local changed_files="$1"
-    local description=""
-    
-    # Analyze file types and patterns to generate meaningful descriptions
-    if echo "$changed_files" | grep -q "\.astro"; then
-        if echo "$changed_files" | grep -q "pages/"; then
-            description="更新頁面架構"
-        elif echo "$changed_files" | grep -q "components/"; then
-            description="優化 UI 元件"
-        elif echo "$changed_files" | grep -q "layouts/"; then
-            description="調整布局設計"
-        else
-            description="更新 Astro 元件"
-        fi
-    elif echo "$changed_files" | grep -q "\.tsx\|\.jsx"; then
-        description="改進 React 元件"
-    elif echo "$changed_files" | grep -q "\.vue"; then
-        description="更新 Vue 元件"
-    elif echo "$changed_files" | grep -q "\.ts\|\.js"; then
-        if echo "$changed_files" | grep -q "config/"; then
-            description="調整專案配置"
-        elif echo "$changed_files" | grep -q "lib/\|utils/"; then
-            description="優化工具函數"
-        else
-            description="更新程式邏輯"
-        fi
-    elif echo "$changed_files" | grep -q "\.md\|\.mdx"; then
-        if echo "$changed_files" | grep -q "content/blog/"; then
-            description="新增/編輯部落格文章"
-        elif echo "$changed_files" | grep -q "content/"; then
-            description="更新內容資料"
-        else
-            description="編輯 Markdown 文件"
-        fi
-    elif echo "$changed_files" | grep -q "\.css\|\.scss"; then
-        description="調整樣式設計"
-    elif echo "$changed_files" | grep -q "package\.json\|pnpm-lock\.yaml"; then
-        description="更新專案依賴"
-    elif echo "$changed_files" | grep -q "astro\.config\|tsconfig\|tailwind\.config"; then
-        description="調整建置配置"
+# Bail if README itself doesn't exist
+[ -f "$README_FILE" ] || exit 0
+
+# Collect changed files from git (staged + unstaged, excluding README)
+CHANGED_FILES=$(git -C "$CLAUDE_PROJECT_DIR" status --porcelain 2>/dev/null \
+    | awk '{print $NF}' \
+    | grep -v "README.md" \
+    | tr '\n' ' ')
+
+# Skip if nothing changed
+[ -z "$CHANGED_FILES" ] && exit 0
+
+# Derive a description from the changed file set
+describe_changes() {
+    local files="$1"
+    if echo "$files" | grep -qE "pages/.*\.astro"; then
+        echo "更新頁面架構"
+    elif echo "$files" | grep -qE "components/.*\.astro"; then
+        echo "優化 Astro UI 元件"
+    elif echo "$files" | grep -qE "\.(tsx|jsx)"; then
+        echo "改進 React 元件"
+    elif echo "$files" | grep -qE "config/"; then
+        echo "調整專案配置"
+    elif echo "$files" | grep -qE "lib/|utils/"; then
+        echo "優化工具函數"
+    elif echo "$files" | grep -qE "content/blog/"; then
+        echo "新增或編輯部落格文章"
+    elif echo "$files" | grep -qE "content/"; then
+        echo "更新內容資料"
+    elif echo "$files" | grep -qE "\.(css|scss)"; then
+        echo "調整樣式設計"
+    elif echo "$files" | grep -qE "package\.json|pnpm-lock\.yaml"; then
+        echo "更新專案依賴"
+    elif echo "$files" | grep -qE "astro\.config|tsconfig|tailwind\.config"; then
+        echo "調整建置配置"
+    elif echo "$files" | grep -qE "\.astro"; then
+        echo "更新 Astro 元件"
+    elif echo "$files" | grep -qE "\.(ts|js)"; then
+        echo "更新程式邏輯"
     else
-        description="專案檔案更新"
+        echo "專案檔案更新"
     fi
-    
-    echo "$description"
 }
 
-# Get recently modified files in the project
-if [ -d .git ]; then
-    # Get files modified in the last 5 minutes, excluding README.md
-    CHANGED_FILES=$(find . -path './node_modules' -prune -o -path './.git' -prune -o \
-        \( -name "*.astro" -o -name "*.tsx" -o -name "*.ts" -o -name "*.vue" -o \
-           -name "*.js" -o -name "*.jsx" -o -name "*.md" -o -name "*.json" -o \
-           -name "*.css" -o -name "*.scss" \) \
-        -not -name "README.md" -newer README.md -print 2>/dev/null | head -10)
-    
-    if [ -n "$CHANGED_FILES" ]; then
-        ACTIVITY_DESC=$(generate_activity_description "$CHANGED_FILES")
-    else
-        ACTIVITY_DESC="程式碼結構優化"
-    fi
-else
-    ACTIVITY_DESC="開發進度更新"
+ACTIVITY_DESC=$(describe_changes "$CHANGED_FILES")
+TIMESTAMP=$(date '+%Y-%m-%d')
+
+# Ensure the activity section header exists
+if ! grep -q "## 開發活動紀錄" "$README_FILE"; then
+    printf '\n## 開發活動紀錄\n\n*由 Claude Code Hooks 自動追蹤*\n\n' >> "$README_FILE"
 fi
 
-# Current timestamp
-TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
+# Prepend new entry; keep last 10
+TEMP=$(mktemp)
+awk -v entry="- **${TIMESTAMP}**: ${ACTIVITY_DESC}" '
+    /^## 開發活動紀錄/ {
+        print
+        in_section=1
+        next
+    }
+    in_section && /^\*由 Claude/ {
+        print
+        print ""
+        print entry
+        count=1
+        next
+    }
+    in_section && /^- \*\*/ {
+        if (count < 10) { print; count++ }
+        next
+    }
+    { print }
+' "$README_FILE" > "$TEMP"
 
-# Update README.md with change log entry
-README_FILE="README.md"
-
-# Check if Development Activity section exists, if not create it
-if ! grep -q "## 🔄 Development Activity" "$README_FILE" 2>/dev/null; then
-    # Add Development Activity section at the end
-    echo "" >> "$README_FILE"
-    echo "## 🔄 Development Activity" >> "$README_FILE"
-    echo "" >> "$README_FILE"
-    echo "*AI 協作開發活動自動追蹤，記錄專案架構與功能演進*" >> "$README_FILE"
-    echo "" >> "$README_FILE"
-fi
-
-# Add the change entry (limit to last 10 entries)
-TEMP_FILE=$(mktemp)
-{
-    # Get everything before the Development Activity section
-    sed -n '1,/## 🔄 Development Activity/p' "$README_FILE"
-    echo ""
-    echo "*AI 協作開發活動自動追蹤，記錄專案架構與功能演進*"
-    echo ""
-    echo "- **$TIMESTAMP**: $ACTIVITY_DESC"
-    # Get existing entries (skip the description line and empty lines, take only the last 9)
-    grep "^- \*\*[0-9]" "$README_FILE" 2>/dev/null | head -9 || true
-    echo ""
-} > "$TEMP_FILE"
-
-# Replace README.md with updated content
-mv "$TEMP_FILE" "$README_FILE"
-
-echo "README.md updated with activity: $ACTIVITY_DESC at $TIMESTAMP"
+mv "$TEMP" "$README_FILE"
+echo "README.md updated: $ACTIVITY_DESC ($TIMESTAMP)"
