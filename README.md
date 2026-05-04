@@ -6,32 +6,32 @@
 
 ### 核心框架
 
-| 技術 | 版本 | 用途 |
-|---|---|---|
-| Astro | 6.2.1 | 靜態網站生成，Islands Architecture |
-| React | 19 | 互動式 island 元件 |
-| Vue | 3.5 | 多框架展示用 island 元件 |
-| TypeScript | 5.9 | 嚴格型別模式 |
+| 技術       | 版本  | 用途                               |
+| ---------- | ----- | ---------------------------------- |
+| Astro      | 6.2.1 | 靜態網站生成，Islands Architecture |
+| React      | 19    | 互動式 island 元件                 |
+| Vue        | 3.5   | 多框架展示用 island 元件           |
+| TypeScript | 5.9   | 嚴格型別模式                       |
 
 ### 樣式與 UI
 
-| 技術 | 版本 | 說明 |
-|---|---|---|
-| Tailwind CSS | 4 | 以 `@theme inline` 設定，整合於 `src/styles/globals.css` |
-| shadcn/ui | — | 基於 Radix UI primitives 的元件庫 |
-| tw-animate-css | 1.4 | Accordion 等動畫，Tailwind v4 相容替代方案 |
-| Motion | 12 | 動畫函式庫（`motion/react` import 路徑） |
+| 技術           | 版本 | 說明                                                     |
+| -------------- | ---- | -------------------------------------------------------- |
+| Tailwind CSS   | 4    | 以 `@theme inline` 設定，整合於 `src/styles/globals.css` |
+| shadcn/ui      | —    | 基於 Radix UI primitives 的元件庫                        |
+| tw-animate-css | 1.4  | Accordion 等動畫，Tailwind v4 相容替代方案               |
+| Motion         | 12   | 動畫函式庫（`motion/react` import 路徑）                 |
 
 ### 內容與工具
 
-| 技術 | 版本 | 說明 |
-|---|---|---|
-| MDX | — | Markdown + JSX，支援元件嵌入 |
-| Shiki | — | 程式碼語法高亮（github-dark-dimmed 主題） |
-| Zod | 4 | Schema 驗證，用於 Content Collections 與表單 |
-| React Hook Form | 7.55+ | 表單狀態管理 |
-| @hookform/resolvers | 5 | Zod v4 resolver |
-| Vitest | 4 | 單元測試（`node` 環境，無 jsdom） |
+| 技術                | 版本  | 說明                                         |
+| ------------------- | ----- | -------------------------------------------- |
+| MDX                 | —     | Markdown + JSX，支援元件嵌入                 |
+| Shiki               | —     | 程式碼語法高亮（github-dark-dimmed 主題）    |
+| Zod                 | 4     | Schema 驗證，用於 Content Collections 與表單 |
+| React Hook Form     | 7.55+ | 表單狀態管理                                 |
+| @hookform/resolvers | 5     | Zod v4 resolver                              |
+| Vitest              | 4     | 單元測試（`node` 環境，無 jsdom）            |
 
 ## 開發指令
 
@@ -118,17 +118,10 @@ Browser
 
 Cloudflare KV 用於 JWT 黑名單與 Session metadata 儲存。後台管理路由（`/admin/*`）將在 edge 層進行第一道驗證。
 
-## Claude Code Hooks
-
-PostToolUse hook：編輯或寫入檔案後自動更新 README 的開發活動紀錄。設定位於 `.claude/settings.json`，腳本為 `.claude/hooks/update-readme.sh`。
-
 ---
 
 ## 開發活動紀錄
 
-*由 Claude Code Hooks 自動追蹤*
-
 - **2026-05-03**: 更新頁面架構
 
 - **2026-05-03**: 升級套件至最新主要版本（React 19、Tailwind v4、Zod v4、Motion v12 等）
-

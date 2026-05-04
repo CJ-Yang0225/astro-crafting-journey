@@ -160,7 +160,7 @@
 
 1. **高階架構說明**
    - 用文字 + 細緻條列，說明各層責任與 Request Flow。
-2. **建議的專案資料夾結構 (Astro 專案為主，可延伸到 monorepo)**  
+2. **建議的專案資料夾結構 (Astro 專案為主，可延伸到 monorepo)**
    - 用樹狀結構列出，並在關鍵資料夾旁加上註解說明用途。
 3. **關鍵整合點的程式碼骨架**
    - Hono edge_auth_layer 的 middleware pipeline 大致骨架 (JWT, rate limit, logging)。

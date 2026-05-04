@@ -6,11 +6,11 @@ Personal portfolio and blog platform built with Astro v6. Goal: showcase technic
 
 ## Target Architecture (in progress)
 
-| Layer | Tech | Responsibility |
-|---|---|---|
-| `origin_application` | Astro v6 + React 18 + Vue 3 | Public blog, portfolio, admin UI |
-| `edge_auth_layer` | Hono + Cloudflare Workers (planned) | JWT auth, rate limiting, routing/gateway |
-| `distributed_kv` | Cloudflare KV (planned) | JWT blacklist, session metadata |
+| Layer                | Tech                                | Responsibility                           |
+| -------------------- | ----------------------------------- | ---------------------------------------- |
+| `origin_application` | Astro v6 + React 18 + Vue 3         | Public blog, portfolio, admin UI         |
+| `edge_auth_layer`    | Hono + Cloudflare Workers (planned) | JWT auth, rate limiting, routing/gateway |
+| `distributed_kv`     | Cloudflare KV (planned)             | JWT blacklist, session metadata          |
 
 Request flow: `Browser → CF edge_auth_layer → origin Astro`
 
@@ -43,13 +43,14 @@ pnpm format       # prettier
 
 Schema source of truth: `src/content.config.ts`
 
-| Collection | Purpose |
-|---|---|
-| `blog/` | Full articles and MDX posts |
-| `notes/` | Dev notes, snippets, quick references |
+| Collection  | Purpose                                      |
+| ----------- | -------------------------------------------- |
+| `blog/`     | Full articles and MDX posts                  |
+| `notes/`    | Dev notes, snippets, quick references        |
 | `projects/` | Portfolio entries with tech stack and status |
 
 **Required front matter:**
+
 - `blog`: `title`, `description`, `publishedAt`, `coverImage`, `category`
 - `notes`: `title`, `createdAt`, `tags`, `category`, `type` (learning\|snippet\|reference)
 - `projects`: `title`, `description`, `technologies`, `images`, `status`, `startDate`
@@ -94,10 +95,6 @@ src/
   hooks/        use-mounted.ts
 astro.config.mjs          # integrations; @tailwindcss/vite in vite.plugins; remarkReadingTime in mdx
 ```
-
-## Hooks (Claude Code Automation)
-
-PostToolUse hook: `.claude/hooks/update-readme.sh` — appends dev activity to README after Edit/Write; skips when README is the target; keeps last 10 entries. Config: `.claude/settings.json`.
 
 ## Architectural Constraints
 
