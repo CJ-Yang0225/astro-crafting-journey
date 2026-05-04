@@ -88,6 +88,7 @@
 
     --radius: 0.5rem;
     --ds-shadow-border: 0 0 0 1px rgba(0, 0, 0, 0.08);
+    --hero-surface: 220 30% 4%;
   }
 
   .dark {
@@ -124,6 +125,7 @@
 
     --radius: 0.5rem;
     --ds-shadow-border: 0 0 0 1px hsla(0, 0%, 100%, 0.145);
+    --hero-surface: 220 30% 4%;
   }
 }
 
