@@ -98,11 +98,7 @@ Use the content APIs that match the job:
 Example:
 
 ```astro
----
-import { getCollection } from 'astro:content'
-
-const posts = await getCollection('blog', ({ data }) => !data.draft)
----
+<object></object>
 ```
 
 When rendering entries, keep route generation and content rendering separate enough that each part remains easy to reason about.
@@ -118,25 +114,7 @@ For dynamic routes:
 Example:
 
 ```astro
----
-import { getCollection, render } from 'astro:content'
-
-export async function getStaticPaths() {
-  const posts = await getCollection('blog')
-  return posts.map((post) => ({
-    params: { slug: post.id },
-    props: { post },
-  }))
-}
-
-const { post } = Astro.props
-const { Content } = await render(post)
----
-
-<article>
-  <h1>{post.data.title}</h1>
-  <Content />
-</article>
+<object></object>
 ```
 
 ### 6. Sync and validate

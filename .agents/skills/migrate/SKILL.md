@@ -40,13 +40,13 @@ Prefer an incremental migration plan when the existing app has meaningful runtim
 
 Typical mappings:
 
-| Source | Astro target |
-| --- | --- |
-| shared app shell | layout |
-| route component | page or dynamic route |
-| markdown/content pipeline | content collection |
-| framework-only widget | island with client directive |
-| image helper | `astro:assets` or the project’s current image strategy |
+| Source                    | Astro target                                           |
+| ------------------------- | ------------------------------------------------------ |
+| shared app shell          | layout                                                 |
+| route component           | page or dynamic route                                  |
+| markdown/content pipeline | content collection                                     |
+| framework-only widget     | island with client directive                           |
+| image helper              | `astro:assets` or the project’s current image strategy |
 
 Keep framework components only where they still add value. Static content should usually become `.astro`.
 

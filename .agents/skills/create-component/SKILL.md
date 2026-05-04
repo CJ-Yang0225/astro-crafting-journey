@@ -39,25 +39,7 @@ Keep the public surface small. If a prop does not change rendering in a meaningf
 Use typed props and semantic structure:
 
 ```astro
----
-interface Props {
-  title: string
-  variant?: 'primary' | 'secondary'
-}
-
-const { title, variant = 'primary' } = Astro.props
----
-
-<section class:list={['card', variant]}>
-  <h2>{title}</h2>
-  <slot />
-</section>
-
-<style>
-  .card {
-    padding: 1rem;
-  }
-</style>
+<object></object>
 ```
 
 Good defaults:
@@ -79,11 +61,7 @@ If the component needs client-side behavior:
 Example:
 
 ```astro
----
-import SearchBox from './SearchBox.tsx'
----
-
-<SearchBox client:visible />
+<object></object>
 ```
 
 Avoid turning large sections of a page into islands when a small interactive leaf component is enough.

@@ -70,15 +70,15 @@ GSAP’s CSSPlugin (included in core) animates DOM elements. Use **camelCase** f
 
 **Transform aliases (prefer over translateX(), rotate(), etc.):**
 
-| GSAP property | Equivalent CSS / note |
-|---------------|------------------------|
-| `x`, `y`, `z` | translateX/Y/Z (default unit: px) |
-| `xPercent`, `yPercent` | translateX/Y in %; use for percentage-based movement; work on SVG |
-| `scale`, `scaleX`, `scaleY` | scale; `scale` sets both X and Y |
-| `rotation` | rotate (default: deg; or `"1.25rad"`) |
-| `rotationX`, `rotationY` | 3D rotate (rotationZ = rotation) |
-| `skewX`, `skewY` | skew (deg or rad string) |
-| `transformOrigin` | transform-origin (e.g. `"left top"`, `"50% 50%"`) |
+| GSAP property               | Equivalent CSS / note                                             |
+| --------------------------- | ----------------------------------------------------------------- |
+| `x`, `y`, `z`               | translateX/Y/Z (default unit: px)                                 |
+| `xPercent`, `yPercent`      | translateX/Y in %; use for percentage-based movement; work on SVG |
+| `scale`, `scaleX`, `scaleY` | scale; `scale` sets both X and Y                                  |
+| `rotation`                  | rotate (default: deg; or `"1.25rad"`)                             |
+| `rotationX`, `rotationY`    | 3D rotate (rotationZ = rotation)                                  |
+| `skewX`, `skewY`            | skew (deg or rad string)                                          |
+| `transformOrigin`           | transform-origin (e.g. `"left top"`, `"50% 50%"`)                 |
 
 Relative values work: `x: "+=20"`, `rotation: "-=30"`. Default units: x/y in px, rotation in deg.
 
@@ -100,13 +100,15 @@ gsap.to(svgEl, { rotation: 90, svgOrigin: "100 100" });
 
 ## Stagger
 
-Offset the animation of each item by 0.1 second like this: 
-```javascript 
+Offset the animation of each item by 0.1 second like this:
+
+```javascript
 gsap.to(".item", {
   y: -20,
   stagger: 0.1
 });
 ```
+
 Or use the object syntax for advanced options like how each successive stagger amount is applied to the targets array (`from: "random" | "start" | "center" | "end" | "edges" | (index)`)
 
 ### Learn More
@@ -144,7 +146,7 @@ base (out)        .in                .out               .inOut
 
 ### Custom: use CustomEase (plugin)
 
-Simple cubic-bezier values (as used in CSS `cubic-bezier()`): 
+Simple cubic-bezier values (as used in CSS `cubic-bezier()`):
 
 ```javascript
 const myEase = CustomEase.create("my-ease", ".17,.67,.83,.67");
@@ -152,7 +154,7 @@ const myEase = CustomEase.create("my-ease", ".17,.67,.83,.67");
 gsap.to(".item", {x: 100, ease: myEase, duration: 1});
 ```
 
-Complex curve with any number of control points, described as normalized SVG path data: 
+Complex curve with any number of control points, described as normalized SVG path data:
 
 ```javascript
 const myEase = CustomEase.create("hop", "M0,0 C0,0 0.056,0.442 0.175,0.442 0.294,0.442 0.332,0 0.332,0 0.332,0 0.414,1 0.671,1 0.991,1 1,0 1,0");
@@ -176,6 +178,7 @@ tween.totalTime(1.5);
 ```
 
 ## Function-based values
+
 Use a function for a `vars` value and it will get called **once for each target** the first time the tween renders, and whatever is returned by that function will be used as the animation value.
 
 ```javascript
@@ -192,8 +195,8 @@ Use a `+=`, `-=`, `*=`, or `/=` prefix to indicate a **relative** value. For exa
 ```javascript
 gsap.to(".class", {x: "-=20" });
 ```
-`x: "+=20"` would add 20 to the current value. `"*=2"` would multiply by 2, and `"/=2"` would divide by 2.
 
+`x: "+=20"` would add 20 to the current value. `"*=2"` would multiply by 2, and `"/=2"` would divide by 2.
 
 ## Defaults
 

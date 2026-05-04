@@ -16,7 +16,7 @@ Apply when writing or reviewing code that uses **gsap.utils** for math, array/co
 
 **gsap.utils** provides pure helpers; no need to register. Use in tween vars (e.g. function-based values), in ScrollTrigger or Observer callbacks, or in any JS that drives GSAP. All are on **gsap.utils** (e.g. `gsap.utils.clamp()`).
 
-**Omitting the value: function form.** Many utils accept the value to transform as the **last** argument. If you omit that argument, the util returns a **function** that accepts the value later. Use the function form when you need to clamp, map, normalize, or snap many values with the same config (e.g. in a mousemove handler or tween callback). **Exception: random()** — pass **true** as the last argument to get a reusable function (do not omit the value); see [random()](https://gsap.com/docs/v3/GSAP/UtilityMethods/random()).
+**Omitting the value: function form.** Many utils accept the value to transform as the **last** argument. If you omit that argument, the util returns a **function** that accepts the value later. Use the function form when you need to clamp, map, normalize, or snap many values with the same config (e.g. in a mousemove handler or tween callback). **Exception: random()** — pass **true** as the last argument to get a reusable function (do not omit the value); see [random()](<https://gsap.com/docs/v3/GSAP/UtilityMethods/random()>).
 
 ```javascript
 // With value: returns the result
@@ -141,15 +141,15 @@ gsap.utils.shuffle([1, 2, 3, 4]); // e.g. [3, 1, 4, 2]
 
 **Config (all optional):**
 
-| Property | Type | Description |
-|----------|------|-------------|
-| `base` | Number | Starting value. Default `0`. |
-| `amount` | Number | Total to distribute across all targets (added to base). E.g. `amount: 1` with 100 targets → 0.01 between each. Use **each** instead to set a fixed step per target. |
-| `each` | Number | Amount to add between each target (added to base). E.g. `each: 1` with 4 targets → 0, 1, 2, 3. Use **amount** instead to split a total. |
-| `from` | Number \| String \| Array | Where distribution starts: index, or `"start"`, `"center"`, `"edges"`, `"random"`, `"end"`, or ratios like `[0.25, 0.75]`. Default `0`. |
-| `grid` | String \| Array | Use grid position instead of flat index: `[rows, columns]` (e.g. `[5, 10]`) or `"auto"` to detect. Omit for flat array. |
-| `axis` | String | For grid: limit to one axis (`"x"` or `"y"`). |
-| `ease` | Ease | Distribute values along an ease curve (e.g. `"power1.inOut"`). Default `"none"`. |
+| Property | Type                      | Description                                                                                                                                                         |
+| -------- | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `base`   | Number                    | Starting value. Default `0`.                                                                                                                                        |
+| `amount` | Number                    | Total to distribute across all targets (added to base). E.g. `amount: 1` with 100 targets → 0.01 between each. Use **each** instead to set a fixed step per target. |
+| `each`   | Number                    | Amount to add between each target (added to base). E.g. `each: 1` with 4 targets → 0, 1, 2, 3. Use **amount** instead to split a total.                             |
+| `from`   | Number \| String \| Array | Where distribution starts: index, or `"start"`, `"center"`, `"edges"`, `"random"`, `"end"`, or ratios like `[0.25, 0.75]`. Default `0`.                             |
+| `grid`   | String \| Array           | Use grid position instead of flat index: `[rows, columns]` (e.g. `[5, 10]`) or `"auto"` to detect. Omit for flat array.                                             |
+| `axis`   | String                    | For grid: limit to one axis (`"x"` or `"y"`).                                                                                                                       |
+| `ease`   | Ease                      | Distribute values along an ease curve (e.g. `"power1.inOut"`). Default `"none"`.                                                                                    |
 
 **In a tween:** pass the result of `distribute(config)` as the property value; GSAP calls the function for each target with `(index, target, targets)`.
 
