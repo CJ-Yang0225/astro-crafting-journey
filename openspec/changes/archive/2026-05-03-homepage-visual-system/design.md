@@ -7,6 +7,7 @@
 ## Goals / Non-Goals
 
 **Goals:**
+
 - 首頁呈現完整視覺敘事：Hero → Projects → Blog → Skills
 - 正確示範 Astro Islands Architecture 分層策略
 - GSAP ScrollTrigger 滾動動畫（Hero，`client:load`）
@@ -15,6 +16,7 @@
 - `pnpm build` 通過，型別檢查無誤
 
 **Non-Goals:**
+
 - 管理後台、auth 邊界變動
 - Three.js / WebGL 效果（規劃為後續 island）
 - CMS 整合或動態資料更新
